@@ -1,3 +1,4 @@
 server:
   port: 8080
-  context-path: /02-springboot-web
+  servlet:
+    context-path: /01-springboot-web
