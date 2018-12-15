@@ -1,44 +1,45 @@
 package com.liaotuo.springboot;
 
-import com.liaotuo.springboot.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {
     @Autowired
-    private UserService userService;
+    @Qualifier("primaryJdbcTemplate")
+    private JdbcTemplate jdbcTemplate1;
+
+    @Autowired
+    @Qualifier("secondaryJdbcTemplate")
+    private JdbcTemplate jdbcTemplate2;
 
     @Before
     public void setUp() {
-        // 测试之前清空user表
-        userService.deleteAllUsers();
+        jdbcTemplate1.update("delete from user ");
+        jdbcTemplate2.update("delete from user ");
     }
 
     @Test
     public void test() {
-        // 插入测试数据
-        userService.create("张三", 20);
-        userService.create("李四", 25);
-        userService.create("王五", 30);
-        userService.create("赵六", 35);
-        userService.create("田七", 40);
+        // 往第一个数据源中插入两条数据
+        jdbcTemplate1.update("insert into user(id,name,age) values(?, ?, ?)", 1, "aaa", 20);
+        jdbcTemplate1.update("insert into user(id,name,age) values(?, ?, ?)", 2, "bbb", 30);
 
-        // 查数据库，应该有5个用户
-        Assert.assertEquals(5, userService.getAllUsers().intValue());
+        // 往第二个数据源中插入一条数据，若插入的是第一个数据源，则会主键冲突报错
+        jdbcTemplate2.update("insert into user(id,name,age) values(?, ?, ?)", 1, "aaa", 20);
 
-        // 删除两个用户
-        userService.deleteByName("张三");
-        userService.deleteByName("李四");
+        // 查一下第一个数据源中是否有两条数据，验证插入是否成功
+        Assert.assertEquals("2", jdbcTemplate1.queryForObject("select count(1) from user", String.class));
 
-        // 查数据库，剩余3个用户
-        Assert.assertEquals(3, userService.getAllUsers().intValue());
+        // 查一下第二个数据源中是否有两条数据，验证插入是否成功
+        Assert.assertEquals("1", jdbcTemplate2.queryForObject("select count(1) from user", String.class));
     }
-
 }
