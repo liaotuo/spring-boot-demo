@@ -5,5 +5,5 @@ package com.liaotuo.springboot;
  * @date 2019-03-20 11:44 AM
  * @description
  **/
-public interface  PersonRepository extends CrudRepository<Person, Name>{
+public interface PersonRepository extends CrudRepository<Person, Name> {
 }

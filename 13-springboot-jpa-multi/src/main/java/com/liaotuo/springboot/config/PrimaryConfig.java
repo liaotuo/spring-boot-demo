@@ -15,9 +15,9 @@ import javax.sql.DataSource;
  **/
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef="entityManagerFactoryPrimary",
-        transactionManagerRef="transactionManagerPrimary",
-        basePackages= { "com.didispace.domain.p" }) //设置Repository所在位置)
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary",
+        transactionManagerRef = "transactionManagerPrimary",
+        basePackages = {"com.didispace.domain.p"}) //设置Repository所在位置)
 public class PrimaryConfig {
     @Qualifier("primaryDataSource")
     private DataSource primaryDataSource;

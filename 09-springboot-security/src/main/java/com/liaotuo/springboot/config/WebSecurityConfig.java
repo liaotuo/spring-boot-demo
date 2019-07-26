@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /***
      * Spring security 5.0中新增了多种加密方式，也改变了密码的格式。会报错: There is no PasswordEncoder mapped for the id "null" 解决办法: Spring
      * Security的配置类WebSecurityConfig中新增下面代码
-     * 
+     *
      * @bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); } 并修改configureGlobal为下所示:
      * @Autowired public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { auth
      *            .inMemoryAuthentication()

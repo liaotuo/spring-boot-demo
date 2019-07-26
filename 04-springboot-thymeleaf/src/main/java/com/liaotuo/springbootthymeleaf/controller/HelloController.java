@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HelloController {
 
     @RequestMapping("/")
-    public String index(ModelMap map){
+    public String index(ModelMap map) {
         // 添加测试属性
         map.addAttribute("github", "https://github.com/liaotuo");
         // 返回字符串 为对应模板文件名 example: src/main/resources/templates/index.html

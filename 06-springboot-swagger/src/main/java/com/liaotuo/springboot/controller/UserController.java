@@ -56,7 +56,7 @@ public class UserController {
     @ApiOperation(value = "更新用户详细信息", notes = "根据url的id来指定更新对象，并根据传过来的user信息来更新用户详细信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public String putUser(@ApiParam(name = "id", value = "用户ID", required = true) @PathVariable Long id,
-            @ApiParam(name = "user", value = "用户详细实体user", required = true) @ModelAttribute User user) {
+                          @ApiParam(name = "user", value = "用户详细实体user", required = true) @ModelAttribute User user) {
         // 处理"/users/{id}"的PUT请求，用来更新User信息
         User u = users.get(id);
         u.setName(user.getName());
